@@ -13,13 +13,16 @@ export const env = createEnv({
     DATABASE_NAME: z.string().min(1),
     DATABASE_PORT: z.string(),
     DATABASE_PASSWORD: z.string().min(1),
+    GOOGLE_API_KEY: z.string().min(1),
   },
   /*
    * Environment variables available on the client (and server).
    *
    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
    */
-  client: {},
+  client: {
+    NEXT_PUBLIC_GOOGLE_API_KEY: z.string().min(1),
+  },
   /*
    * Due to how Next.js bundles environment variables on Edge and Client,
    * we need to manually destructure them to make sure all are included in bundle.
@@ -32,5 +35,7 @@ export const env = createEnv({
     DATABASE_NAME: process.env.DATABASE_NAME,
     DATABASE_PORT: process.env.DATABASE_PORT,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+    NEXT_PUBLIC_GOOGLE_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
   },
 });
