@@ -76,7 +76,9 @@ const NewPostDrawer: React.FC<NewPostDrawerProps> = ({
             A new Flare will be placed on your current location
           </DrawerDescription>
         </DrawerHeader>
-        <NewPostForm location={{ lat: latitude, lng: longitude }} />
+        <div className="px-4">
+          <NewPostForm location={{ lat: latitude, lng: longitude }} />
+        </div>
         <DrawerFooter>
           <Button>POST</Button>
           <DrawerClose>
