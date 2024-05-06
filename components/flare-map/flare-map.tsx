@@ -4,9 +4,6 @@ import type { Geo } from "@/types/geo.types";
 import { useMapOptions } from "@/hooks/useMapOptions";
 import { useMapHandlers } from "@/hooks/useMapHandlers";
 import mapStyles from "@/constants/styles.json";
-import { NewPostDrawer } from "../new-post-drawer/new-post-drawer";
-import { useState } from "react";
-import { NewPostButton } from "../new-post-button/new-post-button";
 import { FlareMapBottom } from "../flare-map-bottom/flare-map-bottom";
 
 type MapProps = {
