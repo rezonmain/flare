@@ -3,7 +3,6 @@ import {
   BottomNavigation,
   BottomNavigationAction,
 } from "../bottom-navigation/bottom-navigation";
-import { NewPostButton } from "../new-post-button/new-post-button";
 import { NewPostDrawer } from "../new-post-drawer/new-post-drawer";
 
 const FlareMapBottom = () => {
@@ -26,15 +25,17 @@ const FlareMapBottom = () => {
         icon: "sparkles",
         onClick: () => console.log("Trending"),
       },
+      {
+        label: "Post",
+        icon: "pen-line",
+        onClick: () => setDrawer(true),
+      },
     ],
     []
   );
 
   return (
     <div className="fixed bottom-0 w-full flex flex-col gap-4">
-      <div className="ml-auto pr-4">
-        <NewPostButton onClick={() => setDrawer(true)} />
-      </div>
       <BottomNavigation actions={actions} />
       <NewPostDrawer isOpen={drawer} onOpenChange={setDrawer} />
     </div>

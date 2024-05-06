@@ -1,6 +1,5 @@
 import { type Dispatch, type SetStateAction } from "react";
 import {
-  DrawerTrigger,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
@@ -24,13 +23,15 @@ const NewPostDrawer: React.FC<NewPostDrawerProps> = ({
     <Drawer open={isOpen} onOpenChange={onOpenChange}>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-          <DrawerDescription>This action cannot be undone.</DrawerDescription>
+          <DrawerTitle>Create a Flare</DrawerTitle>
+          <DrawerDescription>
+            A new Flare will be placed on your current location
+          </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Button>Submit</Button>
+          <Button>POST</Button>
           <DrawerClose>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">CANCEL</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
