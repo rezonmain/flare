@@ -1,4 +1,8 @@
-import { FLARE_ID_LENGTH } from "@/constants/flare.constants";
+import {
+  FLARE_BODY_MAX_LENGTH,
+  FLARE_ID_LENGTH,
+} from "@/constants/flare.constants";
+import { TAGS_NAME_MAX_LENGTH } from "@/constants/tags.constants";
 import { TIME_FIELDS_LENGTH } from "@/constants/time.constants";
 import { generateFlareId } from "@/helpers/flare.helpers";
 import { ISONow } from "@/helpers/time.helpers";
@@ -22,7 +26,7 @@ export const flare = mysqlTable("flares", {
     "CHECK_IN",
     "DISCUSSION",
   ]).default("CHECK_IN"),
-  body: varchar("body", { length: 2048 }).notNull(),
+  body: varchar("body", { length: FLARE_BODY_MAX_LENGTH }).notNull(),
   location: varchar("location", { length: 512 }).notNull(),
   createdAt: varchar("created_at", { length: TIME_FIELDS_LENGTH }).$defaultFn(
     ISONow
@@ -35,7 +39,7 @@ export const tag = mysqlTable(
   "tags",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 64 }).notNull(),
+    name: varchar("name", { length: TAGS_NAME_MAX_LENGTH }).notNull(),
     createdAt: varchar("created_at", { length: TIME_FIELDS_LENGTH }).$defaultFn(
       ISONow
     ),

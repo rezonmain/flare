@@ -1,0 +1,3 @@
+const TAGS_NAME_MAX_LENGTH = 64;
+
+export { TAGS_NAME_MAX_LENGTH };

@@ -11,4 +11,4 @@ enum FlareMediaType {
   VIDEO = "VIDEO",
 }
 
-export type { FlareCategory, FlareMediaType };
+export { FlareCategory, FlareMediaType };
