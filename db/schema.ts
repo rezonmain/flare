@@ -33,7 +33,8 @@ export const tags = sql`CREATE TABLE IF NOT EXISTS tags (
   id SERIAL PRIMARY KEY,
   name VARCHAR(${TAGS_NAME_MAX_LENGTH}) NOT NULL,
   createdAt VARCHAR(${TIME_FIELDS_LENGTH}) NOT NULL,
-  updatedAt VARCHAR(${TIME_FIELDS_LENGTH})
+  updatedAt VARCHAR(${TIME_FIELDS_LENGTH}),
+  UNIQUE INDEX unique_idx_name (name)
 );`;
 export type Tag = {
   id: number;
