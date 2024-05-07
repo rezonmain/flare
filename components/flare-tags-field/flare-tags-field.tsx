@@ -45,7 +45,7 @@ const FlareTagsField: React.FC<FlareTagsFieldProps> = ({ value, onChange }) => {
           <ChevronDown size="24px" />
         </Badge>
       </SheetTrigger>
-      <SheetContent className="w-full h-screen flex flex-col justify-between">
+      <SheetContent className="w-full h-svh flex flex-col justify-between overflow-y-auto">
         <div>
           <div className="flex flex-col gap-5">
             <SheetHeader>
@@ -69,10 +69,10 @@ const FlareTagsField: React.FC<FlareTagsFieldProps> = ({ value, onChange }) => {
             </Button>
           </div>
 
-          <div className="pt-10 flex flex-col gap-3">
+          <div className="mt-10 flex flex-col gap-3">
             <p className="font-bold">Current tags</p>
             {empty(value) && <p>You have not added any tags</p>}
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {value.map((tag) => (
                 <Button
                   variant="ghost"
@@ -80,8 +80,8 @@ const FlareTagsField: React.FC<FlareTagsFieldProps> = ({ value, onChange }) => {
                   className="p-0"
                   onClick={() => handleRemoveTag(tag)}
                 >
-                  <Badge variant="outline" className="p-3 font-bold">
-                    #{tag}
+                  <Badge variant="outline" className="p-3 max-w-[85vw]">
+                    <p className="font-bold truncate">#{tag}</p>
                   </Badge>
                 </Button>
               ))}

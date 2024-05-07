@@ -39,7 +39,7 @@ const FlareCategorySelect: React.FC<FlareCategorySelectProps> = ({
           <ChevronDown size="24px" />
         </Badge>
       </SheetTrigger>
-      <SheetContent className="w-full flex flex-col justify-between overflow-auto">
+      <SheetContent className="w-full h-svh flex flex-col justify-between overflow-auto">
         <div>
           <SheetHeader>
             <SheetTitle className="text-left">Flare category</SheetTitle>
