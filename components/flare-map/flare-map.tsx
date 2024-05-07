@@ -5,13 +5,19 @@ import { useMapOptions } from "@/hooks/useMapOptions";
 import { useMapHandlers } from "@/hooks/useMapHandlers";
 import mapStyles from "@/constants/styles.json";
 import { FlareMapBottom } from "../flare-map-bottom/flare-map-bottom";
+import { Flare } from "@/db/schema";
 
 type MapProps = {
   defaultCenter: Geo;
   defaultZoom: number;
+  flares: Flare[];
 };
 
-const FlareMap: React.FC<MapProps> = ({ defaultCenter, defaultZoom }) => {
+const FlareMap: React.FC<MapProps> = ({
+  defaultCenter,
+  defaultZoom,
+  flares,
+}) => {
   const mapOptions = useMapOptions();
   const handlers = useMapHandlers();
 
@@ -25,7 +31,12 @@ const FlareMap: React.FC<MapProps> = ({ defaultCenter, defaultZoom }) => {
           styles={mapStyles}
           {...handlers}
         >
-          <Marker position={defaultCenter} />
+          {flares.map((flare) => (
+            <Marker
+              key={flare.id}
+              position={{ lat: flare.lat, lng: flare.lng }}
+            />
+          ))}
         </Map>
       </APIProvider>
       <FlareMapBottom />

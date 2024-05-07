@@ -5,14 +5,15 @@ import { generateFlareId } from "@/helpers/flare.helpers";
 import { ISONow } from "@/helpers/time.helpers";
 import { makePoint } from "@/helpers/geo.helpers";
 import { FLARE_CREATE_SCHEMA } from "@/constants/flare.constants";
-import { result } from "@/helpers/sql.helpers";
+import { result, results } from "@/helpers/sql.helpers";
 import { nil } from "@rezonmain/utils-nil";
 import { db } from "@/db";
+import { Flare } from "@/db/schema";
 
 const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
   const newFlareId = generateFlareId();
   const createdAt = ISONow();
-  const location = makePoint(flare.location);
+  const location = makePoint({ lat: flare.lat, lng: flare.lng });
 
   const flareQuery = sql`INSERT INTO flares (id, category, body, createdAt, location) VALUES (
     ${newFlareId},
@@ -68,4 +69,12 @@ const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
   });
 };
 
-export { insertFlare };
+const getFlares = async () => {
+  return results<Flare>(() =>
+    db.execute(
+      sql`SELECT id, category, body, createdAt, updateAt, ST_X(location) AS 'lat', ST_Y(location) AS 'lng' FROM flares;`
+    )
+  );
+};
+
+export { insertFlare, getFlares };

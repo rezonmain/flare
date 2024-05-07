@@ -37,7 +37,8 @@ const FLARE_CREATE_SCHEMA = z.object({
   body: z.string().min(1).max(256),
   tags: z.array(z.string().min(1).max(64)),
   category: z.nativeEnum(FlareCategory),
-  location: z.object({ lat: z.number(), lng: z.number() }),
+  lat: z.number(),
+  lng: z.number(),
 });
 
 const FLARE_CREATE_INITIAL_VALUES = {

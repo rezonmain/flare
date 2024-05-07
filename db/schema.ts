@@ -25,7 +25,8 @@ export type Flare = {
   body: string;
   createdAt: string;
   updatedAt?: string;
-  location: Geo;
+  lat: number;
+  lng: number;
 };
 export type NewFlare = Omit<Flare, "id" | "createdAt" | "updatedAt">;
 
