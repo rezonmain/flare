@@ -1,6 +1,6 @@
-import mysql from "mysql2/promise";
-import { drizzle } from "drizzle-orm/mysql2";
 import { env } from "@/config/env.mjs";
+import { drizzle } from "drizzle-orm/mysql2";
+import mysql from "mysql2/promise";
 
 const connection = await mysql.createConnection({
   host: env.DATABASE_HOST,
@@ -10,6 +10,4 @@ const connection = await mysql.createConnection({
   password: env.DATABASE_PASSWORD,
 });
 
-const db = drizzle(connection);
-
-export { db };
+export const db = drizzle(connection);

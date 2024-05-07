@@ -13,7 +13,7 @@ import {
 } from "@/constants/flare.constants";
 import { FlareTagsField } from "../flare-tags-field/flare-tags-field";
 import { Button } from "../ui/button";
-import { createFlare } from "@/app/near-me/actions";
+import { insertFlare } from "@/db/queries";
 
 type NewPostFormProps = {
   location: Geo;
@@ -28,7 +28,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
 
   const handleSubmit = useCallback(
     async (values: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
-      await createFlare(values);
+      await insertFlare(values);
     },
     []
   );

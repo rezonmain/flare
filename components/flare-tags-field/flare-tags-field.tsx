@@ -28,7 +28,10 @@ const FlareTagsField: React.FC<FlareTagsFieldProps> = ({ value, onChange }) => {
   );
   const handleAddTag = () => {
     if (empty(tagInput)) return;
-    const formattedInput = tagInput.trim().replace(/[^0-9a-z]/gi, "");
+    const formattedInput = tagInput
+      .trim()
+      .replace(/[^0-9a-z]/gi, "")
+      .toLowerCase();
     onChange([...value, formattedInput]);
     setTagInput("");
   };
