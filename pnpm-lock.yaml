@@ -26,6 +26,9 @@ dependencies:
   '@radix-ui/react-slot':
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.3.1)(react@18.3.1)
+  '@rezonmain/utils-empty':
+    specifier: ^0.0.1
+    version: 0.0.1
   '@rezonmain/utils-nil':
     specifier: ^0.0.3
     version: 0.0.3
@@ -1234,6 +1237,10 @@ packages:
       '@radix-ui/react-use-layout-effect': 1.0.1(@types/react@18.3.1)(react@18.3.1)
       '@types/react': 18.3.1
       react: 18.3.1
+    dev: false
+
+  /@rezonmain/utils-empty@0.0.1:
+    resolution: {integrity: sha512-y/Goa9AS0apbp8+774ImtB53Um/PF3DXgeXz1MHe/bj16rswepxN8JA0lOmEBeusv8h2mCWGSzz7Uv73F6JGaQ==, tarball: https://npm.pkg.github.com/download/@rezonmain/utils-empty/0.0.1/fda682289ab9021e0a49130af34d57e7fcee5ce8}
     dev: false
 
   /@rezonmain/utils-nil@0.0.3:
