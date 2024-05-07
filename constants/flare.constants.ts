@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { IconName } from "@/components/ui/icon";
 import { FlareCategory } from "./flare.enums";
 
@@ -32,6 +33,19 @@ const FLARE_CATEGORY_DESCRIPTIONS = {
   [FlareCategory.SELL]: "Promote or sell something",
 };
 
+const FLARE_CREATE_SCHEMA = z.object({
+  body: z.string().min(1).max(256),
+  tags: z.array(z.string().min(1).max(64)),
+  category: z.nativeEnum(FlareCategory),
+  location: z.object({ lat: z.number(), lng: z.number() }),
+});
+
+const FLARE_CREATE_INITIAL_VALUES = {
+  body: "",
+  tags: [],
+  category: FlareCategory.CHECK_IN,
+};
+
 export {
   FLARE_ID_LENGTH,
   FLARE_BODY_MAX_LENGTH,
@@ -39,4 +53,6 @@ export {
   FLARE_BODY_PLACEHOLDERS,
   FLARE_CATEGORY_ICONS,
   FLARE_CATEGORY_DESCRIPTIONS,
+  FLARE_CREATE_SCHEMA,
+  FLARE_CREATE_INITIAL_VALUES,
 };

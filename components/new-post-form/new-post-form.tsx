@@ -1,51 +1,44 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { FlareCategory } from "@/constants/flare.enums";
 import { Geo } from "@/types/geo.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FlareCategorySelect } from "../flare-category-select/flare-category-select";
-import { FLARE_BODY_PLACEHOLDERS } from "@/constants/flare.constants";
+import {
+  FLARE_BODY_PLACEHOLDERS,
+  FLARE_CREATE_INITIAL_VALUES,
+  FLARE_CREATE_SCHEMA,
+} from "@/constants/flare.constants";
 import { FlareTagsField } from "../flare-tags-field/flare-tags-field";
+import { Button } from "../ui/button";
+import { createFlare } from "@/app/near-me/actions";
 
 type NewPostFormProps = {
   location: Geo;
 };
 
-const newFlareSchema = z.object({
-  body: z.string().min(1).max(256),
-  tags: z.array(z.string().min(1).max(64)),
-  category: z.nativeEnum(FlareCategory),
-  location: z.object({ lat: z.number(), lng: z.number() }),
-});
-
 const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
-  const form = useForm<z.infer<typeof newFlareSchema>>({
-    resolver: zodResolver(newFlareSchema),
-    defaultValues: {
-      body: "",
-      tags: [],
-      category: FlareCategory.CHECK_IN,
-      location,
-    },
+  const form = useForm<z.infer<typeof FLARE_CREATE_SCHEMA>>({
+    resolver: zodResolver(FLARE_CREATE_SCHEMA),
+    defaultValues: { ...FLARE_CREATE_INITIAL_VALUES, location },
   });
   const category = form.watch("category");
 
-  const handleSubmit = useCallback((values: z.infer<typeof newFlareSchema>) => {
-    console.info(values);
-  }, []);
+  const handleSubmit = useCallback(
+    async (values: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
+      await createFlare(values);
+    },
+    []
+  );
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex flex-col gap-8"
+      >
         <div className="flex gap-3">
           <FormField
             control={form.control}
@@ -81,10 +74,10 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
                   placeholder={FLARE_BODY_PLACEHOLDERS[category]}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
+        <Button disabled={!form.formState.isDirty}>POST</Button>
       </form>
     </Form>
   );

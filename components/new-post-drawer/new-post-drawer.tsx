@@ -80,7 +80,6 @@ const NewPostDrawer: React.FC<NewPostDrawerProps> = ({
           <NewPostForm location={{ lat: latitude, lng: longitude }} />
         </div>
         <DrawerFooter>
-          <Button>POST</Button>
           <DrawerClose asChild>
             <Button variant="outline">CANCEL</Button>
           </DrawerClose>
