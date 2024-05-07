@@ -5,10 +5,10 @@ const FLARE_ID_LENGTH = 8;
 const FLARE_BODY_MAX_LENGTH = 2048;
 const FLARE_CATEGORY_LABELS = {
   [FlareCategory.CHECK_IN]: "Check-in",
-  [FlareCategory.DISCUSSION]: "Help",
-  [FlareCategory.EVENT]: "News",
-  [FlareCategory.INFORMATION]: "Question",
-  [FlareCategory.SELL]: "Promotion",
+  [FlareCategory.DISCUSSION]: "Discussion",
+  [FlareCategory.EVENT]: "Event",
+  [FlareCategory.INFORMATION]: "Information",
+  [FlareCategory.SELL]: "Sell",
 };
 const FLARE_BODY_PLACEHOLDERS = {
   [FlareCategory.CHECK_IN]: "Whats happening around you?",
@@ -19,17 +19,17 @@ const FLARE_BODY_PLACEHOLDERS = {
 };
 const FLARE_CATEGORY_ICONS: Record<FlareCategory, IconName> = {
   [FlareCategory.CHECK_IN]: "map-pin",
-  [FlareCategory.DISCUSSION]: "sparkles",
-  [FlareCategory.EVENT]: "pen-line",
-  [FlareCategory.INFORMATION]: "pen-line",
-  [FlareCategory.SELL]: "user",
+  [FlareCategory.DISCUSSION]: "message-circle-question",
+  [FlareCategory.EVENT]: "flag",
+  [FlareCategory.INFORMATION]: "message-circle-warning",
+  [FlareCategory.SELL]: "money",
 };
 const FLARE_CATEGORY_DESCRIPTIONS = {
   [FlareCategory.CHECK_IN]: "Check-in to a location",
   [FlareCategory.DISCUSSION]: "Ask for help",
-  [FlareCategory.EVENT]: "Share news",
-  [FlareCategory.INFORMATION]: "Ask a question",
-  [FlareCategory.SELL]: "Promote something",
+  [FlareCategory.EVENT]: "Share news about an event you're hosting",
+  [FlareCategory.INFORMATION]: "Provide information about something near you",
+  [FlareCategory.SELL]: "Promote or sell something",
 };
 
 export {

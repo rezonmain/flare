@@ -81,7 +81,7 @@ const NewPostDrawer: React.FC<NewPostDrawerProps> = ({
         </div>
         <DrawerFooter>
           <Button>POST</Button>
-          <DrawerClose>
+          <DrawerClose asChild>
             <Button variant="outline">CANCEL</Button>
           </DrawerClose>
         </DrawerFooter>

@@ -1,4 +1,13 @@
-import { MapPinIcon, PenLineIcon, SparklesIcon, User } from "lucide-react";
+import {
+  DollarSign,
+  FlagIcon,
+  MapPinIcon,
+  MessageCircleQuestion,
+  MessageCircleWarning,
+  PenLineIcon,
+  SparklesIcon,
+  User,
+} from "lucide-react";
 import React, { createElement } from "react";
 
 const icons = {
@@ -6,6 +15,10 @@ const icons = {
   sparkles: SparklesIcon,
   user: User,
   "pen-line": PenLineIcon,
+  money: DollarSign,
+  "message-circle-warning": MessageCircleWarning,
+  "message-circle-question": MessageCircleQuestion,
+  flag: FlagIcon,
 } as const;
 
 type IconName = keyof typeof icons;

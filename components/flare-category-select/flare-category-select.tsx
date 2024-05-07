@@ -1,4 +1,10 @@
+import { ChevronDown } from "lucide-react";
 import { FlareCategory } from "@/constants/flare.enums";
+import {
+  FLARE_CATEGORY_DESCRIPTIONS,
+  FLARE_CATEGORY_ICONS,
+  FLARE_CATEGORY_LABELS,
+} from "@/constants/flare.constants";
 import {
   Sheet,
   SheetClose,
@@ -8,18 +14,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Badge } from "../ui/badge";
-import {
-  FLARE_CATEGORY_DESCRIPTIONS,
-  FLARE_CATEGORY_ICONS,
-  FLARE_CATEGORY_LABELS,
-} from "@/constants/flare.constants";
-import { ChevronDown } from "lucide-react";
-import { Button } from "../ui/button";
-import { RadioButtonIcon } from "../ui/radio-button-icon";
+} from "@/components/ui/sheet";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { RadioButtonIcon } from "@/components/ui/radio-button-icon";
 import { Separator } from "@/components/ui/separator";
 
 type FlareCategorySelectProps = {
@@ -36,7 +35,7 @@ const FlareCategorySelect: React.FC<FlareCategorySelectProps> = ({
       <SheetTrigger>
         <Badge className="flex gap-4 items-center">
           <p>Category: {FLARE_CATEGORY_LABELS[value]}</p>
-          <ChevronDown size="18px" />
+          <ChevronDown size="24px" />
         </Badge>
       </SheetTrigger>
       <SheetContent className="w-full">
@@ -57,9 +56,8 @@ const FlareCategorySelect: React.FC<FlareCategorySelectProps> = ({
             <div className="flex flex-col gap-6">
               {Object.entries(FlareCategory).map(
                 ([categoryKey, categoryValue]) => (
-                  <>
+                  <div key={categoryKey}>
                     <RadioButtonIcon
-                      key={categoryKey}
                       id={categoryKey}
                       value={categoryValue}
                       checked={value === categoryValue}
@@ -69,7 +67,7 @@ const FlareCategorySelect: React.FC<FlareCategorySelectProps> = ({
                       description={FLARE_CATEGORY_DESCRIPTIONS[categoryValue]}
                     />
                     <Separator />
-                  </>
+                  </div>
                 )
               )}
             </div>
