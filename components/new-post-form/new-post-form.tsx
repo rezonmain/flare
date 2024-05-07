@@ -13,7 +13,7 @@ import {
 } from "@/constants/flare.constants";
 import { FlareTagsField } from "../flare-tags-field/flare-tags-field";
 import { Button } from "../ui/button";
-import { insertFlare } from "@/db/queries";
+import { insertFlare } from "@/db/queries/flares.queries";
 
 type NewPostFormProps = {
   location: Geo;
