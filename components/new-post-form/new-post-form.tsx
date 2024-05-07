@@ -4,18 +4,17 @@ import { useForm } from "react-hook-form";
 import { FlareCategory } from "@/constants/flare.enums";
 import { Geo } from "@/types/geo.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { FlareCategorySelect } from "../flare-category-select/flare-category-select";
 import { FLARE_BODY_PLACEHOLDERS } from "@/constants/flare.constants";
+import { FlareTagsField } from "../flare-tags-field/flare-tags-field";
 
 type NewPostFormProps = {
   location: Geo;
@@ -46,18 +45,29 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormControl>
-              <FlareCategorySelect
-                value={field.value}
-                onChange={field.onChange}
-              />
-            </FormControl>
-          )}
-        />
+        <div className="flex gap-3">
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormControl>
+                <FlareCategorySelect
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormControl>
+                <FlareTagsField value={field.value} onChange={field.onChange} />
+              </FormControl>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="body"
