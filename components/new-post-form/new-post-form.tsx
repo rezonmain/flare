@@ -1,5 +1,5 @@
+import { useCallback, useMemo } from "react";
 import { z } from "zod";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { FlareCategory } from "@/constants/flare.enums";
 import { Geo } from "@/types/geo.types";
@@ -37,6 +37,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
       location,
     },
   });
+  const category = form.watch("category");
 
   const handleSubmit = useCallback((values: z.infer<typeof newFlareSchema>) => {
     console.info(values);
@@ -77,9 +78,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
                 <Textarea
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder={
-                    FLARE_BODY_PLACEHOLDERS[form.getValues().category]
-                  }
+                  placeholder={FLARE_BODY_PLACEHOLDERS[category]}
                 />
               </FormControl>
               <FormMessage />
