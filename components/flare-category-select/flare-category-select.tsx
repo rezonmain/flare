@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { ChevronDown } from "lucide-react";
 import { FlareCategory } from "@/constants/flare.enums";
 import {
@@ -56,7 +57,7 @@ const FlareCategorySelect: React.FC<FlareCategorySelectProps> = ({
             <div className="flex flex-col gap-6">
               {Object.entries(FlareCategory).map(
                 ([categoryKey, categoryValue]) => (
-                  <div key={categoryKey}>
+                  <Fragment key={categoryKey}>
                     <RadioButtonIcon
                       id={categoryKey}
                       value={categoryValue}
@@ -67,7 +68,7 @@ const FlareCategorySelect: React.FC<FlareCategorySelectProps> = ({
                       description={FLARE_CATEGORY_DESCRIPTIONS[categoryValue]}
                     />
                     <Separator />
-                  </div>
+                  </Fragment>
                 )
               )}
             </div>
