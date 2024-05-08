@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { ChevronDown, XIcon } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { empty } from "@rezonmain/utils-empty";
 import {
   Sheet,
@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
+import { TAG_FORMAT_REGEX } from "@/constants/tags.constants";
 
 type FlareTagsFieldProps = {
   value: string[];
@@ -26,20 +27,23 @@ const FlareTagsField: React.FC<FlareTagsFieldProps> = ({ value, onChange }) => {
     () => value.map((tag) => `#${tag}`).join(" "),
     [value]
   );
-  const handleAddTag = () => {
+  const handleAddTag = useCallback(() => {
     if (empty(tagInput)) return;
     const formattedInput = tagInput
       .trim()
-      .replace(/[^0-9a-z]/gi, "")
+      .replace(TAG_FORMAT_REGEX, "")
       .toLowerCase();
     onChange([...value, formattedInput]);
     setTagInput("");
-  };
+  }, [onChange, tagInput, value]);
 
-  const handleRemoveTag = (tag: string) => {
-    const newTags = value.filter((t) => t !== tag);
-    onChange(newTags);
-  };
+  const handleRemoveTag = useCallback(
+    (tag: string) => {
+      const newTags = value.filter((t) => t !== tag);
+      onChange(newTags);
+    },
+    [onChange, value]
+  );
   return (
     <Sheet>
       <SheetTrigger>

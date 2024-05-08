@@ -1,3 +1,4 @@
 const TAGS_NAME_MAX_LENGTH = 64;
+const TAG_FORMAT_REGEX = /[^0-9a-zA-Záéíóú]/gi;
 
-export { TAGS_NAME_MAX_LENGTH };
+export { TAGS_NAME_MAX_LENGTH, TAG_FORMAT_REGEX };
