@@ -13,6 +13,7 @@ import { Icon } from "@/components/ui/icon";
 import { type Flare } from "@/db/schema";
 import { env } from "@/config/env.mjs";
 import { FLARE_CATEGORY_ICONS } from "@/constants/flare.constants";
+import { Markers } from "@/components/marker/markers";
 
 type MapProps = {
   defaultCenter: Geo;
@@ -38,14 +39,7 @@ const FlareMap: React.FC<MapProps> = ({
           defaultZoom={defaultZoom}
           {...handlers}
         >
-          {flares.map((flare) => (
-            <AdvancedMarker
-              key={flare.id}
-              position={{ lat: flare.lat, lng: flare.lng }}
-            >
-              <Icon name={FLARE_CATEGORY_ICONS[flare.category]} />
-            </AdvancedMarker>
-          ))}
+          <Markers flares={flares} />
         </Map>
       </APIProvider>
       <FlareMapBottom />
