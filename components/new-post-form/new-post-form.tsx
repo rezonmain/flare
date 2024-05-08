@@ -22,7 +22,11 @@ type NewPostFormProps = {
 const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
   const form = useForm<z.infer<typeof FLARE_CREATE_SCHEMA>>({
     resolver: zodResolver(FLARE_CREATE_SCHEMA),
-    defaultValues: { ...FLARE_CREATE_INITIAL_VALUES, location },
+    defaultValues: {
+      ...FLARE_CREATE_INITIAL_VALUES,
+      lat: location.lat,
+      lng: location.lng,
+    },
   });
   const category = form.watch("category");
 
