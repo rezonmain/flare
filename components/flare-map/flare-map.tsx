@@ -1,18 +1,10 @@
 "use client";
-import {
-  APIProvider,
-  AdvancedMarker,
-  Map,
-  Pin,
-} from "@vis.gl/react-google-maps";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import type { Geo } from "@/types/geo.types";
 import { useMapOptions } from "@/hooks/useMapOptions";
 import { useMapHandlers } from "@/hooks/useMapHandlers";
 import { FlareMapBottom } from "@/components/flare-map-bottom/flare-map-bottom";
-import { Icon } from "@/components/ui/icon";
 import { type Flare } from "@/db/schema";
-import { env } from "@/config/env.mjs";
-import { FLARE_CATEGORY_ICONS } from "@/constants/flare.constants";
 import { Markers } from "@/components/marker/markers";
 
 type MapProps = {
