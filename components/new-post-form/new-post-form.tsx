@@ -1,25 +1,32 @@
 import { useCallback } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Geo } from "@/types/geo.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { FlareCategorySelect } from "../flare-category-select/flare-category-select";
+import { FlareCategorySelect } from "@/components/flare-category-select/flare-category-select";
 import {
   FLARE_BODY_PLACEHOLDERS,
   FLARE_CREATE_INITIAL_VALUES,
   FLARE_CREATE_SCHEMA,
 } from "@/constants/flare.constants";
-import { FlareTagsField } from "../flare-tags-field/flare-tags-field";
-import { Button } from "../ui/button";
+import { FlareTagsField } from "@/components/flare-tags-field/flare-tags-field";
 import { insertFlare } from "@/db/queries/flares.queries";
+import { useMutation } from "@tanstack/react-query";
+import { LoadingButton } from "../ui/loading-button";
 
 type NewPostFormProps = {
   location: Geo;
+  onOpenChange: (state: boolean) => void;
 };
 
-const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
+const NewPostForm: React.FC<NewPostFormProps> = ({
+  location,
+  onOpenChange,
+}) => {
+  const { isPending, mutateAsync } = useMutation({ mutationFn: insertFlare });
   const form = useForm<z.infer<typeof FLARE_CREATE_SCHEMA>>({
     resolver: zodResolver(FLARE_CREATE_SCHEMA),
     defaultValues: {
@@ -32,10 +39,14 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
 
   const handleSubmit = useCallback(
     async (values: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
-      await insertFlare(values);
+      await mutateAsync(values);
+      onOpenChange(false);
+      toast("Flare created successfully");
     },
-    []
+    [mutateAsync, onOpenChange]
   );
+
+  const isButtonDisabled = !form.formState.isDirty || isPending;
 
   return (
     <Form {...form}>
@@ -81,7 +92,9 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
             </FormItem>
           )}
         />
-        <Button disabled={!form.formState.isDirty}>POST</Button>
+        <LoadingButton loading={isPending} disabled={isButtonDisabled}>
+          POST
+        </LoadingButton>
       </form>
     </Form>
   );
