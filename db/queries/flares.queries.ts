@@ -9,6 +9,7 @@ import { result, results } from "@/helpers/sql.helpers";
 import { nil } from "@rezonmain/utils-nil";
 import { db } from "@/db";
 import { Flare } from "@/db/schema";
+import { revalidatePath } from "next/cache";
 
 const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
   const newFlareId = generateFlareId();
@@ -67,6 +68,7 @@ const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
       );
     });
   });
+  revalidatePath("/near-me");
 };
 
 const getFlares = async () => {
