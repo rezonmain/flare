@@ -30,7 +30,7 @@ const FlareMap: React.FC<MapProps> = ({
 
   return (
     <div className="h-screen w-full">
-      <APIProvider apiKey={env.NEXT_PUBLIC_GOOGLE_API_KEY}>
+      <APIProvider apiKey={""}>
         <Map
           mapId={"8e0a97af9386fef"}
           disableDefaultUI
