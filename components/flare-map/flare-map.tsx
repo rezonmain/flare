@@ -6,6 +6,7 @@ import { useMapHandlers } from "@/hooks/useMapHandlers";
 import mapStyles from "@/constants/styles.json";
 import { FlareMapBottom } from "@/components/flare-map-bottom/flare-map-bottom";
 import { Flare } from "@/db/schema";
+import { env } from "@/config/env.mjs";
 
 type MapProps = {
   defaultCenter: Geo;
@@ -23,7 +24,7 @@ const FlareMap: React.FC<MapProps> = ({
 
   return (
     <div className="h-screen w-full">
-      <APIProvider apiKey="">
+      <APIProvider apiKey={env.NEXT_PUBLIC_GOOGLE_API_KEY}>
         <Map
           disableDefaultUI
           defaultCenter={defaultCenter}
