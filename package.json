@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:dry": "bun ./db/scripts/dryrun.ts",
     "db:version": "bun ./db/scripts/version.ts",
-    "db:push": "bun ./db/scripts/push.ts"
+    "db:push": "bun ./db/scripts/push.ts",
+    "db:nuke": "bun ./db/scripts/nuke.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -35,6 +36,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
+    "request-ip": "^3.3.0",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
