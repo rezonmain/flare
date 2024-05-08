@@ -9,10 +9,9 @@ import type { Geo } from "@/types/geo.types";
 import { useMapOptions } from "@/hooks/useMapOptions";
 import { useMapHandlers } from "@/hooks/useMapHandlers";
 import { FlareMapBottom } from "@/components/flare-map-bottom/flare-map-bottom";
-import { Flare } from "@/db/schema";
+import { Icon } from "@/components/ui/icon";
+import { type Flare } from "@/db/schema";
 import { env } from "@/config/env.mjs";
-import { MapIcon } from "lucide-react";
-import { Icon } from "../ui/icon";
 import { FLARE_CATEGORY_ICONS } from "@/constants/flare.constants";
 
 type MapProps = {
