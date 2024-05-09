@@ -1,27 +1,39 @@
 "use client";
-import { useCallback } from "react";
-import { MapCameraChangedEvent } from "@vis.gl/react-google-maps";
+import { type MapEventProps } from "@vis.gl/react-google-maps";
+import { useSetAtom } from "jotai";
+import { nil } from "@rezonmain/utils-nil";
+import { drawerAtom } from "@/state/map.state";
 import { useQS } from "@/hooks/useQS";
 
-const useMapHandlers = () => {
+const useMapHandlers = (capabilities?: (keyof MapEventProps)[]) => {
   const [_, update] = useQS();
+  const setDrawer = useSetAtom(drawerAtom);
 
-  const onLoad = useCallback(() => {
-    console.log("Map Loaded...");
-  }, []);
+  if (nil(capabilities)) {
+    return {};
+  }
 
-  const onBoundsChanged = useCallback(
-    (e: MapCameraChangedEvent) => {
+  const handlers: MapEventProps = {
+    onBoundsChanged: (e) => {
       update({
         lat: e.detail.center.lat.toString(),
         lng: e.detail.center.lng.toString(),
         z: e.detail.zoom.toString(),
       });
     },
-    [update]
-  );
 
-  return { onLoad, onBoundsChanged };
+    onDblclick: (e) => {
+      setDrawer(true);
+    },
+  };
+
+  Object.keys(handlers).forEach((key) => {
+    if (!capabilities.includes(key as keyof MapEventProps)) {
+      delete handlers[key as keyof MapEventProps];
+    }
+  });
+
+  return handlers;
 };
 
 export { useMapHandlers };

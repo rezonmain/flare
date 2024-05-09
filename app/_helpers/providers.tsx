@@ -1,16 +1,18 @@
 "use client";
-
-import { Toaster } from "@/components/ui/sonner";
+import { Provider as JotaiProvider } from "jotai";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
 
 const queryClient = new QueryClient();
 
 function Providers({ children }: React.PropsWithChildren) {
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <Toaster position="top-center" />
-    </QueryClientProvider>
+    <JotaiProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <Toaster position="top-center" />
+      </QueryClientProvider>
+    </JotaiProvider>
   );
 }
 

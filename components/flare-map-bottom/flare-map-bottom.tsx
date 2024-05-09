@@ -1,12 +1,14 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useAtom } from "jotai";
 import {
   BottomNavigation,
   BottomNavigationAction,
-} from "../bottom-navigation/bottom-navigation";
-import { NewPostDrawer } from "../new-post-drawer/new-post-drawer";
+} from "@/components/bottom-navigation/bottom-navigation";
+import { NewPostDrawer } from "@/components/new-post-drawer/new-post-drawer";
+import { drawerAtom } from "@/state/map.state";
 
 const FlareMapBottom = () => {
-  const [drawer, setDrawer] = useState(false);
+  const [drawer, setDrawer] = useAtom(drawerAtom);
 
   const actions: BottomNavigationAction[] = useMemo(
     () => [
@@ -31,7 +33,7 @@ const FlareMapBottom = () => {
         onClick: () => setDrawer(true),
       },
     ],
-    []
+    [setDrawer]
   );
 
   return (
