@@ -3,4 +3,10 @@ type Geo = {
   lng: number;
 };
 
-export type { Geo };
+type GeoZ = {
+  lat: number;
+  lng: number;
+  z: number;
+};
+
+export type { Geo, GeoZ };

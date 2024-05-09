@@ -4,9 +4,10 @@ import { useMap, type MapEventProps } from "@vis.gl/react-google-maps";
 import { MapCapabilities } from "@/constants/map.enum";
 import { useQG } from "@/hooks/useQG";
 import { nil } from "@rezonmain/utils-nil";
+import { MAP_ID } from "@/constants/map.constants";
 
 const useMapHandlers = (capabilities?: MapCapabilities[]) => {
-  const map = useMap();
+  const map = useMap(MAP_ID);
   const { setQG } = useQG();
 
   if (empty(capabilities)) {
@@ -17,9 +18,8 @@ const useMapHandlers = (capabilities?: MapCapabilities[]) => {
     onIdle: () => {
       if (capabilities.includes(MapCapabilities.STATE_ON_IDLE)) {
         const center = map?.getCenter();
-        console.log(center);
         if (nil(center)) return;
-        setQG({ lat: center.lat(), lng: center.lng() });
+        setQG({ lat: center.lat(), lng: center.lng(), z: map?.getZoom() ?? 0 });
       }
     },
   };
