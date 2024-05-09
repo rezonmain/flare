@@ -1,21 +1,17 @@
 "use client";
-import {
-  APIProvider,
-  Map,
-  type MapEventProps,
-} from "@vis.gl/react-google-maps";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Geo } from "@/types/geo.types";
-import { useMapHandlers } from "@/hooks/useMapHandlers";
 import { FlareMapBottom } from "@/components/flare-map-bottom/flare-map-bottom";
 import { type Flare } from "@/db/schema";
 import { Markers } from "@/components/marker/markers";
-import { MAP_ID } from "@/constants/map.constants";
+import type { MapCapabilities } from "@/constants/map.enum";
+import { MapView } from "@/components/map-view/map-view";
 
 type MapProps = {
   defaultCenter: Geo;
   defaultZoom: number;
   flares: Flare[];
-  capabilities?: (keyof MapEventProps)[];
+  capabilities?: MapCapabilities[];
 };
 
 const FlareMap: React.FC<MapProps> = ({
@@ -24,23 +20,18 @@ const FlareMap: React.FC<MapProps> = ({
   flares,
   capabilities,
 }) => {
-  const handlers = useMapHandlers(capabilities);
-  console.log(handlers);
   return (
     <div className="h-screen w-full">
       <APIProvider apiKey={""}>
-        <Map
-          id={MAP_ID}
-          mapId={MAP_ID}
-          disableDefaultUI
+        <MapView
           defaultCenter={defaultCenter}
           defaultZoom={defaultZoom}
-          {...handlers}
+          capabilities={capabilities}
         >
           <Markers flares={flares} />
-        </Map>
+        </MapView>
+        <FlareMapBottom />
       </APIProvider>
-      <FlareMapBottom />
     </div>
   );
 };

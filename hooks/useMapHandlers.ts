@@ -1,37 +1,28 @@
 "use client";
-import { type MapEventProps } from "@vis.gl/react-google-maps";
-import { useSetAtom } from "jotai";
+import { empty } from "@rezonmain/utils-empty";
+import { useMap, type MapEventProps } from "@vis.gl/react-google-maps";
+import { MapCapabilities } from "@/constants/map.enum";
+import { useQG } from "@/hooks/useQG";
 import { nil } from "@rezonmain/utils-nil";
-import { drawerAtom } from "@/state/map.state";
-import { useQS } from "@/hooks/useQS";
 
-const useMapHandlers = (capabilities?: (keyof MapEventProps)[]) => {
-  const [_, update] = useQS();
-  const setDrawer = useSetAtom(drawerAtom);
+const useMapHandlers = (capabilities?: MapCapabilities[]) => {
+  const map = useMap();
+  const { setQG } = useQG();
 
-  if (nil(capabilities)) {
+  if (empty(capabilities)) {
     return {};
   }
 
   const handlers: MapEventProps = {
-    onBoundsChanged: (e) => {
-      update({
-        lat: e.detail.center.lat.toString(),
-        lng: e.detail.center.lng.toString(),
-        z: e.detail.zoom.toString(),
-      });
-    },
-
-    onDblclick: (e) => {
-      setDrawer(true);
+    onIdle: () => {
+      if (capabilities.includes(MapCapabilities.STATE_ON_IDLE)) {
+        const center = map?.getCenter();
+        console.log(center);
+        if (nil(center)) return;
+        setQG({ lat: center.lat(), lng: center.lng() });
+      }
     },
   };
-
-  Object.keys(handlers).forEach((key) => {
-    if (!capabilities.includes(key as keyof MapEventProps)) {
-      delete handlers[key as keyof MapEventProps];
-    }
-  });
 
   return handlers;
 };
