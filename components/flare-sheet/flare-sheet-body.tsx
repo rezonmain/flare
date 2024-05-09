@@ -50,7 +50,7 @@ const FlareSheetBody: React.FC<FlareSheetBodyProps> = ({ flareId }) => {
           <div className="flex flex-row gap-2 flex-wrap pb-2">
             {data?.tags.map((tag) => (
               <Badge key={tag.id} variant="secondary">
-                {tag.name}
+                #{tag.name}
               </Badge>
             ))}
           </div>
