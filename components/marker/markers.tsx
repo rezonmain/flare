@@ -1,6 +1,9 @@
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import type { Flare } from "@/db/schema";
-import { FLARE_CATEGORY_ICONS } from "@/constants/flare.constants";
+import {
+  FLARE_CATEGORY_CLASSNAMES,
+  FLARE_CATEGORY_ICONS,
+} from "@/constants/flare.constants";
 import { useClusterer } from "@/hooks/useClusterer";
 import { Icon } from "@/components/ui/icon";
 
@@ -19,7 +22,11 @@ const Markers: React.FC<MarkersProps> = ({ flares }) => {
           position={{ lat: flare.lat, lng: flare.lng }}
           ref={(marker) => setMarkerRef(marker, flare.id)}
         >
-          <Icon name={FLARE_CATEGORY_ICONS[flare.category]} />
+          <Icon
+            size={38}
+            name={FLARE_CATEGORY_ICONS[flare.category]}
+            className={FLARE_CATEGORY_CLASSNAMES[flare.category]}
+          />
         </AdvancedMarker>
       ))}
     </>

@@ -32,6 +32,13 @@ const FLARE_CATEGORY_DESCRIPTIONS = {
   [FlareCategory.INFORMATION]: "Provide information about something near you",
   [FlareCategory.SELL]: "Promote or sell something",
 };
+const FLARE_CATEGORY_CLASSNAMES = {
+  [FlareCategory.CHECK_IN]: "fill-red-500",
+  [FlareCategory.DISCUSSION]: "fill-blue-500",
+  [FlareCategory.EVENT]: "fill-yellow-500",
+  [FlareCategory.INFORMATION]: "fill-purple-500",
+  [FlareCategory.SELL]: "fill-green-500",
+};
 
 const FLARE_CREATE_SCHEMA = z.object({
   body: z.string().min(1).max(256),
@@ -56,4 +63,5 @@ export {
   FLARE_CATEGORY_DESCRIPTIONS,
   FLARE_CREATE_SCHEMA,
   FLARE_CREATE_INITIAL_VALUES,
+  FLARE_CATEGORY_CLASSNAMES,
 };
