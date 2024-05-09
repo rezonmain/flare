@@ -28,17 +28,19 @@ const FlareSheet: React.FC = () => {
         side="left"
         className="w-full h-dvh flex flex-col justify-between overflow-auto"
       >
-        <SheetHeader>
-          <SheetTitle className="text-left">
-            Flare - {FLARE_CATEGORY_LABELS[flare.category]}
-          </SheetTitle>
-          <SheetDescription className="text-left flex items-center gap-1">
-            <ClockIcon size={16} />
-            Expires in:
-            <FlareCountdown createdAt={flare.createdAt} />
-          </SheetDescription>
-        </SheetHeader>
-        <FlareSheetBody flareId={flare.id} />
+        <div className="flex flex-col gap-6">
+          <SheetHeader>
+            <SheetTitle className="text-left">
+              Flare - {FLARE_CATEGORY_LABELS[flare.category]}
+            </SheetTitle>
+            <SheetDescription className="text-left flex items-center gap-1">
+              <ClockIcon size={16} />
+              Expires in:
+              <FlareCountdown createdAt={flare.createdAt} />
+            </SheetDescription>
+          </SheetHeader>
+          <FlareSheetBody flareId={flare.id} />
+        </div>
         <SheetFooter>
           <SheetClose asChild>
             <Button variant="secondary">CLOSE</Button>
