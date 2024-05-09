@@ -1,12 +1,13 @@
 "use server";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/connection";
-import { result } from "@/helpers/sql.helpers";
+import { result, results } from "@/helpers/sql.helpers";
 import { Role } from "@/db/schema";
 import { generateUserId } from "@/helpers/user.helpers";
 import { ISONow } from "@/helpers/time.helpers";
 import { z } from "zod";
 import { UserRoles } from "@/constants/user.enums";
+import { revalidatePath } from "next/cache";
 
 const newRoleSchema = z.object({
   email: z.string().email({ message: "Please provide a valid email" }),
@@ -35,13 +36,18 @@ const insertRole = async (formData: FormData) => {
 
   const userId = generateUserId();
   const createdAt = ISONow();
-  return result<Role>(() =>
-    db.execute(
-      sql`
+  await db.execute(
+    sql`
         INSERT INTO roles (id, email, role, createdAt) VALUES (${userId}, ${payload.data.email}, ${payload.data.role}, ${createdAt});
       `
-    )
+  );
+  revalidatePath("/super-user");
+};
+
+const getRoles = async () => {
+  return results<Role>(() =>
+    db.execute(sql`SELECT id, email, role, createdAt, updatedAt FROM roles;`)
   );
 };
 
-export { getRole, insertRole };
+export { getRole, insertRole, getRoles };

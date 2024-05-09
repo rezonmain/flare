@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { UserRoles } from "@/constants/user.enums";
-import { getRole, insertRole } from "@/db/queries/roles.queries";
+import { getRole, getRoles, insertRole } from "@/db/queries/roles.queries";
 import { empty } from "@rezonmain/utils-empty";
 import { nil } from "@rezonmain/utils-nil";
 import { redirect } from "next/navigation";
@@ -21,11 +21,21 @@ export default async function SuperUserPage() {
     return <p>403</p>;
   }
 
+  const roles = await getRoles();
+
   return (
     <div>
       <h1>Super User Page</h1>
       <p>Hi there {session.user.name}</p>
-
+      <hr />
+      <h2>Roles</h2>
+      <ul>
+        {roles.map((role) => (
+          <li key={role.id}>
+            {role.email} - {role.role}
+          </li>
+        ))}
+      </ul>
       <hr />
       <form action={insertRole} className="p-5 flex flex-col gap-5 items-start">
         <fieldset className="flex flex-col gap-5">
