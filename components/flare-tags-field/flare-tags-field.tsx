@@ -52,7 +52,7 @@ const FlareTagsField: React.FC<FlareTagsFieldProps> = ({ value, onChange }) => {
           <ChevronDown size="24px" />
         </Badge>
       </SheetTrigger>
-      <SheetContent className="w-full h-svh flex flex-col justify-between overflow-y-auto">
+      <SheetContent className="w-full h-dvh flex flex-col justify-between overflow-y-auto">
         <div>
           <div className="flex flex-col gap-5">
             <SheetHeader>

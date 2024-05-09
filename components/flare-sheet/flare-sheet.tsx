@@ -23,7 +23,7 @@ const FlareSheet: React.FC = () => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent
         side="left"
-        className="w-full h-svh flex flex-col justify-between overflow-auto"
+        className="w-full h-dvh flex flex-col justify-between overflow-auto"
       >
         <SheetHeader>
           <SheetTitle className="text-left">Flare category</SheetTitle>
