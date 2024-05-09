@@ -40,7 +40,7 @@ const FlareSheetBody: React.FC<FlareSheetBodyProps> = ({ flareId }) => {
             </AvatarFallback>
           </Avatar>
           <p className="flex flex-col">
-            <strong>Guest #41142</strong>
+            <strong>Guest #13162</strong>
             <span className="leading-tight text-sm">{timeAgo}</span>
           </p>
         </div>
