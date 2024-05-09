@@ -6,6 +6,7 @@ import { type Flare } from "@/db/schema";
 import { Markers } from "@/components/marker/markers";
 import type { MapCapabilities } from "@/constants/map.enum";
 import { MapView } from "@/components/map-view/map-view";
+import { FlareSheet } from "@/components/flare-sheet/flare-sheet";
 
 type MapProps = {
   defaultCenter: Geo;
@@ -30,6 +31,7 @@ const FlareMap: React.FC<MapProps> = ({
         >
           <Markers flares={flares} />
         </MapView>
+        <FlareSheet />
         <FlareMapBottom />
       </APIProvider>
     </div>

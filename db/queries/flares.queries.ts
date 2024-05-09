@@ -68,7 +68,7 @@ const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
       );
     });
   });
-  revalidatePath("/near-me");
+  revalidatePath("/near-me[[...geo]]");
 };
 
 const getFlares = async () => {
@@ -79,4 +79,10 @@ const getFlares = async () => {
   );
 };
 
-export { insertFlare, getFlares };
+const getFlare = async (id: Flare["id"]) => {
+  return result<Flare>(() =>
+    db.execute(sql`SELECT * FROM flares WHERE id = ${id};`)
+  );
+};
+
+export { insertFlare, getFlares, getFlare };

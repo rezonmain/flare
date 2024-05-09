@@ -3,6 +3,7 @@ import { FlareMap } from "@/components/flare-map/flare-map";
 import { getFlares } from "@/db/queries";
 import { BASE_CAPABILITIES } from "@/constants/map.constants";
 
+export const dynamic = "force-dynamic";
 export default async function NearMePage() {
   const flares = await getFlares();
   return (
