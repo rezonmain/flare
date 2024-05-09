@@ -7,24 +7,26 @@ type FlareSheetActionsProps = {
   flareId: Flare["id"];
 };
 
+const ICON_SIZE = 22;
+
 const FlareSheetActions: React.FC<FlareSheetActionsProps> = ({ flareId }) => {
   return (
-    <div className="flex gap-3">
-      <Badge>
+    <div className="flex gap-2">
+      <Badge className="h-9">
         <Button size="icon" className="flex gap-2 h-6">
-          <ThumbsUp size={18} />
+          <ThumbsUp size={ICON_SIZE} />
           <code>0</code>
         </Button>
       </Badge>
-      <Badge>
+      <Badge className="h-9">
         <Button size="icon" className="flex gap-2 h-6">
-          <MessagesSquare size={18} />
+          <MessagesSquare size={ICON_SIZE} />
           <code>0</code>
         </Button>
       </Badge>
-      <Badge>
+      <Badge className="h-9">
         <Button size="icon" className="h-6 w-5">
-          <Share2 size={18} />
+          <Share2 size={ICON_SIZE} />
         </Button>
       </Badge>
     </div>
