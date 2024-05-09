@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FlareSheetActions } from "@/components/flare-sheet/flare-sheet-actions";
 import { empty } from "@rezonmain/utils-empty";
+import { FlareSheetBodySkeleton } from "@/components/flare-sheet/flare-sheet-body-skeleton";
 dayjs.extend(relativeTime);
 
 type FlareSheetBodyProps = {
@@ -26,7 +27,7 @@ const FlareSheetBody: React.FC<FlareSheetBodyProps> = ({ flareId }) => {
     [data?.createdAt]
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <FlareSheetBodySkeleton />;
 
   return (
     <Card>
