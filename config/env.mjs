@@ -14,6 +14,10 @@ export const env = createEnv({
     DATABASE_PORT: z.string(),
     DATABASE_PASSWORD: z.string().min(1),
     GOOGLE_API_KEY: z.string().min(1),
+    DISCORD_CLIENT_ID: z.string().min(1),
+    DISCORD_CLIENT_SECRET: z.string().min(1),
+    NEXTAUTH_SECRET: z.string().min(1),
+    SUPER_USER_EMAIL: z.string().email(),
   },
   /*
    * Environment variables available on the client (and server).
@@ -37,5 +41,9 @@ export const env = createEnv({
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     NEXT_PUBLIC_GOOGLE_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    SUPER_USER_EMAIL: process.env.SUPER_USER_EMAIL,
   },
 });

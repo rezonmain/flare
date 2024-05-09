@@ -5,14 +5,19 @@ import {
 import { FlareCategory } from "@/constants/flare.enums";
 import { TAGS_NAME_MAX_LENGTH } from "@/constants/tags.constants";
 import { TIME_FIELDS_LENGTH } from "@/constants/time.constants";
-import { Geo } from "@/types/geo.types";
+import {
+  USER_EMAIL_MAX_LENGTH,
+  USER_ID_LENGTH,
+} from "@/constants/user.constants";
+import { UserRoles } from "@/constants/user.enums";
+import { listValues } from "@/helpers/utils.helpers";
 import { sql } from "drizzle-orm";
 
 export const flares = sql.raw(`CREATE TABLE IF NOT EXISTS flares (
   id VARCHAR(${FLARE_ID_LENGTH}) PRIMARY KEY NOT NULL,
-  category ENUM(${Object.values(FlareCategory)
-    .map((c) => `'${c}'`)
-    .join(", ")}) DEFAULT '${FlareCategory.CHECK_IN}',
+  category ENUM(${listValues(FlareCategory)}) DEFAULT '${
+  FlareCategory.CHECK_IN
+}',
   body VARCHAR(${FLARE_BODY_MAX_LENGTH}) NOT NULL,
   createdAt VARCHAR(${TIME_FIELDS_LENGTH}) NOT NULL,
   updateAt VARCHAR(${TIME_FIELDS_LENGTH}),
@@ -78,4 +83,21 @@ export type Media = {
 };
 export type NewMedia = Omit<Media, "id" | "updatedAt">;
 
-export const TABLE_STATEMENTS = [flares, tags, flareTags, medias];
+export const roles = sql.raw(`CREATE TABLE IF NOT EXISTS roles (
+  id VARCHAR(${USER_ID_LENGTH}) PRIMARY KEY NOT NULL,
+  email VARCHAR(${USER_EMAIL_MAX_LENGTH}) NOT NULL,
+  role ENUM(${listValues(UserRoles)}) NOT NULL,
+  createdAt VARCHAR(${TIME_FIELDS_LENGTH}) NOT NULL,
+  updatedAt VARCHAR(${TIME_FIELDS_LENGTH}),
+  UNIQUE INDEX unique_idx_email (email)
+);`);
+export type Role = {
+  id: string;
+  email: string;
+  role: UserRoles;
+  createdAt: string;
+  updatedAt?: string;
+};
+export type NewRole = Omit<Role, "id" | "createdAt" | "updatedAt">;
+
+export const TABLE_STATEMENTS = [flares, tags, flareTags, medias, roles];

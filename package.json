@@ -10,7 +10,8 @@
     "db:dry": "bun ./db/scripts/dryrun.ts",
     "db:version": "bun ./db/scripts/version.ts",
     "db:push": "bun ./db/scripts/push.ts",
-    "db:nuke": "bun ./db/scripts/nuke.ts"
+    "db:nuke": "bun ./db/scripts/nuke.ts",
+    "db:seed": "bun ./db/scripts/seed.ts"
   },
   "dependencies": {
     "@googlemaps/markerclusterer": "^2.5.3",
@@ -33,6 +34,7 @@
     "lucide-react": "^0.377.0",
     "mysql2": "^3.9.7",
     "next": "14.2.3",
+    "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
