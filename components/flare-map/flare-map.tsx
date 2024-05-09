@@ -18,9 +18,6 @@ const FlareMap: React.FC<MapProps> = ({
   defaultZoom,
   flares,
 }) => {
-  const mapOptions = useMapOptions();
-  const handlers = useMapHandlers();
-
   return (
     <div className="h-screen w-full">
       <APIProvider apiKey={""}>
@@ -29,7 +26,6 @@ const FlareMap: React.FC<MapProps> = ({
           disableDefaultUI
           defaultCenter={defaultCenter}
           defaultZoom={defaultZoom}
-          {...handlers}
         >
           <Markers flares={flares} />
         </Map>
