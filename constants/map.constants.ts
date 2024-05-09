@@ -8,4 +8,10 @@ const BASE_CAPABILITIES = [
   MapCapabilities.STATE_ON_IDLE,
 ];
 
-export { MAP_ID, BASE_CAPABILITIES };
+const ADMIN_CAPABILITIES = [
+  MapCapabilities.FLARE_ADD,
+  MapCapabilities.FLARE_ADD_ANY_WHERE,
+  MapCapabilities.STATE_ON_IDLE,
+];
+
+export { MAP_ID, BASE_CAPABILITIES, ADMIN_CAPABILITIES };
