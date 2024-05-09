@@ -8,8 +8,9 @@ import { FLARE_CREATE_SCHEMA } from "@/constants/flare.constants";
 import { result, results } from "@/helpers/sql.helpers";
 import { nil } from "@rezonmain/utils-nil";
 import { db } from "@/db";
-import { Flare } from "@/db/schema";
+import { Flare, type Tag } from "@/db/schema";
 import { revalidatePath } from "next/cache";
+import type { FlareWithTags } from "@/types/flare.types";
 
 const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
   const newFlareId = generateFlareId();
@@ -79,10 +80,30 @@ const getFlares = async () => {
   );
 };
 
-const getFlare = async (id: Flare["id"]) => {
-  return result<Flare>(() =>
-    db.execute(sql`SELECT * FROM flares WHERE id = ${id};`)
-  );
+const getFlare = async (id: Flare["id"]): Promise<FlareWithTags> => {
+  return db.transaction(async (tx) => {
+    const res = await Promise.all([
+      results<Tag>(() =>
+        tx.execute(
+          // Get the tags related to the flare
+          sql`SELECT tags.*
+            FROM tags
+            JOIN flare_tags ON tags.id = flare_tags.tagId
+            JOIN flares ON flare_tags.flareId = flares.id
+            WHERE flares.id = ${id};`
+        )
+      ),
+      result<Flare>(() =>
+        tx.execute(
+          // Get the flare
+          sql`SELECT id, category, body, createdAt, updateAt, ST_X(location) AS 'lat', ST_Y(location) AS 'lng'
+            FROM flares
+            WHERE id = ${id};`
+        )
+      ),
+    ]);
+    return { ...res[1], tags: res[0] };
+  });
 };
 
 export { insertFlare, getFlares, getFlare };
