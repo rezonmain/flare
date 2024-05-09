@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { FlareSheetBody } from "@/components/flare-sheet/flare-sheet-body";
+import { FLARE_CATEGORY_LABELS } from "@/constants/flare.constants";
+import { ClockIcon } from "lucide-react";
+import { FlareCountdown } from "@/components/flare-countdown/flare-contdown";
 
 const FlareSheet: React.FC = () => {
   const [open, setOpen] = useAtom(flareSheetOpenAtom);
@@ -26,8 +29,14 @@ const FlareSheet: React.FC = () => {
         className="w-full h-dvh flex flex-col justify-between overflow-auto"
       >
         <SheetHeader>
-          <SheetTitle className="text-left">Flare category</SheetTitle>
-          <SheetDescription className="text-left">ok</SheetDescription>
+          <SheetTitle className="text-left">
+            Flare - {FLARE_CATEGORY_LABELS[flare.category]}
+          </SheetTitle>
+          <SheetDescription className="text-left flex items-center gap-1">
+            <ClockIcon size={16} />
+            Expires in:
+            <FlareCountdown createdAt={flare.createdAt} />
+          </SheetDescription>
         </SheetHeader>
         <FlareSheetBody flareId={flare.id} />
         <SheetFooter>
