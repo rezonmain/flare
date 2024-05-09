@@ -8,6 +8,8 @@ import { getFlare } from "@/client-api/queries";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { FlareSheetActions } from "@/components/flare-sheet/flare-sheet-actions";
+import { empty } from "@rezonmain/utils-empty";
 dayjs.extend(relativeTime);
 
 type FlareSheetBodyProps = {
@@ -43,14 +45,17 @@ const FlareSheetBody: React.FC<FlareSheetBodyProps> = ({ flareId }) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-row gap-2 flex-wrap pb-2">
-          {data?.tags.map((tag) => (
-            <Badge key={tag.id} variant="secondary">
-              {tag.name}
-            </Badge>
-          ))}
-        </div>
-        <p>{data?.body}</p>
+        {empty(data?.tags) ? null : (
+          <div className="flex flex-row gap-2 flex-wrap pb-2">
+            {data?.tags.map((tag) => (
+              <Badge key={tag.id} variant="secondary">
+                {tag.name}
+              </Badge>
+            ))}
+          </div>
+        )}
+        <p className="pb-2">{data?.body}</p>
+        <FlareSheetActions flareId={flareId} />
       </CardContent>
     </Card>
   );
