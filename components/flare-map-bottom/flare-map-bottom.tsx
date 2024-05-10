@@ -1,12 +1,18 @@
 import { useMemo } from "react";
+import { useMap } from "@vis.gl/react-google-maps";
+import { useGeolocation } from "@uidotdev/usehooks";
+import { nil } from "@rezonmain/utils-nil";
 import {
   BottomNavigation,
   BottomNavigationAction,
 } from "@/components/bottom-navigation/bottom-navigation";
 import { NewPostDrawer } from "@/components/new-post-drawer/new-post-drawer";
 import { useDrawer } from "@/state";
+import { MAP_ID } from "@/constants/map.constants";
 
 const FlareMapBottom = () => {
+  const map = useMap(MAP_ID);
+  const { latitude: lat, longitude: lng } = useGeolocation();
   const { openDrawer } = useDrawer();
 
   const actions: BottomNavigationAction[] = useMemo(
@@ -19,7 +25,16 @@ const FlareMapBottom = () => {
       {
         label: "Near me",
         icon: "map-pin",
-        onClick: () => console.log("Near me"),
+        onClick: () => {
+          if (!map || nil(lat) || nil(lng)) {
+            return;
+          }
+          map.setCenter({
+            lat,
+            lng,
+          });
+          map.setZoom(20);
+        },
       },
       {
         label: "Trending",
@@ -36,7 +51,7 @@ const FlareMapBottom = () => {
           }),
       },
     ],
-    [openDrawer]
+    [openDrawer, map, lat, lng]
   );
 
   return (
