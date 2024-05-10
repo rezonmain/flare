@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Geo } from "@/types/geo.types";
 import { FlareMapBottom } from "@/components/flare-map-bottom/flare-map-bottom";
@@ -8,7 +9,6 @@ import type { MapCapabilities } from "@/constants/map.enum";
 import { MapView } from "@/components/map-view/map-view";
 import { useSetAtom } from "@/state";
 import { userAtom } from "@/state/user.state";
-import { useEffect } from "react";
 
 type MapProps = {
   defaultCenter: Geo;
