@@ -18,7 +18,7 @@ type FlareSheetProps = {
 
 const FlareSheet: React.FC<FlareSheetProps> = ({ flare }) => {
   return (
-    <>
+    <div className="flex flex-col h-full justify-between">
       <div className="flex flex-col gap-6">
         <SheetHeader>
           <SheetTitle className="text-left">
@@ -37,7 +37,7 @@ const FlareSheet: React.FC<FlareSheetProps> = ({ flare }) => {
           <Button variant="secondary">CLOSE</Button>
         </SheetClose>
       </SheetFooter>
-    </>
+    </div>
   );
 };
 
