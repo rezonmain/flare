@@ -1,12 +1,14 @@
 "use client";
 import { empty } from "@rezonmain/utils-empty";
 import { useMap, type MapEventProps } from "@vis.gl/react-google-maps";
-import { mapCenterAtom, useSetAtom, useUser } from "@/state";
+import { mapCenterAtom, useDrawer, useSetAtom, useUser } from "@/state";
 import { MAP_ID } from "@/constants/map.constants";
 import { MapCapabilities } from "@/constants/map.enum";
+import { NewPostDrawer } from "@/components/new-post-drawer/new-post-drawer";
 
 const useMapHandlers = () => {
   const map = useMap(MAP_ID);
+  const { openDrawer } = useDrawer();
   const { capabilities } = useUser();
   const setMapCenter = useSetAtom(mapCenterAtom);
 
@@ -26,9 +28,19 @@ const useMapHandlers = () => {
       });
     },
 
-    onClick: () => {
+    onClick: (e) => {
       if (capabilities.includes(MapCapabilities.FLARE_ADD_ANY_WHERE)) {
-        alert("Add flare");
+        openDrawer({
+          name: "flare-add-anywhere",
+          component: (
+            <NewPostDrawer
+              location={{
+                lat: e.detail.latLng?.lat ?? 0,
+                lng: e.detail.latLng?.lng ?? 0,
+              }}
+            />
+          ),
+        });
       }
     },
   };

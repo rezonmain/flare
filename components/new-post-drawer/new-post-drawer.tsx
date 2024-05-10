@@ -12,7 +12,14 @@ import { Button } from "@/components/ui/button";
 import { NewPostForm } from "@/components/new-post-form/new-post-form";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const NewPostDrawer: React.FC = () => {
+type NewPostDrawerProps = {
+  location?: {
+    lat: number;
+    lng: number;
+  };
+};
+
+const NewPostDrawer: React.FC<NewPostDrawerProps> = ({ location }) => {
   const { latitude, longitude, loading } = useGeolocation();
   const router = useRouter();
 
@@ -61,7 +68,11 @@ const NewPostDrawer: React.FC = () => {
         </DrawerDescription>
       </DrawerHeader>
       <div className="px-4">
-        <NewPostForm location={{ lat: latitude, lng: longitude }} />
+        <NewPostForm
+          location={
+            nil(location) ? { lat: latitude, lng: longitude } : location
+          }
+        />
       </div>
       <DrawerFooter>
         <DrawerClose asChild>
