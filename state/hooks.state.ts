@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { mapCenterAtom } from "@/state/map.state";
 import {
@@ -7,6 +8,7 @@ import {
   type DrawerAtomProps,
   type SheetAtomProps,
 } from "@/state/ui.state";
+import { userAtom } from "@/state/user.state";
 
 /**
  * Get the current map center
@@ -52,4 +54,18 @@ const useSheet = () => {
   return { openSheet, closeSheet };
 };
 
-export { useAtom, useAtomValue, useSetAtom, useMapCenter, useDrawer, useSheet };
+const useUser = () => {
+  const session = useSession();
+  const user = useAtomValue(userAtom);
+  return { ...user, session };
+};
+
+export {
+  useAtom,
+  useAtomValue,
+  useSetAtom,
+  useMapCenter,
+  useDrawer,
+  useSheet,
+  useUser,
+};
