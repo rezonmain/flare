@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import type { Geo } from "@/types/geo.types";
 import { FlareMapBottom } from "@/components/flare-map-bottom/flare-map-bottom";
@@ -23,7 +24,10 @@ const FlareMap: React.FC<MapProps> = ({
   capabilities,
 }) => {
   const setCapabilities = useSetAtom(userAtom);
-  setCapabilities((prev) => ({ ...prev, capabilities: capabilities ?? [] }));
+
+  useEffect(() => {
+    setCapabilities((prev) => ({ ...prev, capabilities: capabilities ?? [] }));
+  }, [capabilities, setCapabilities]);
 
   return (
     <div className="h-screen w-full">

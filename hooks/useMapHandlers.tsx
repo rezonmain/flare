@@ -1,16 +1,17 @@
 "use client";
 import { empty } from "@rezonmain/utils-empty";
 import { useMap, type MapEventProps } from "@vis.gl/react-google-maps";
-import { mapCenterAtom, useDrawer, useSetAtom, useUser } from "@/state";
+import { useDrawer, useUser } from "@/state";
 import { MAP_ID } from "@/constants/map.constants";
 import { MapCapabilities } from "@/constants/map.enum";
 import { NewPostDrawer } from "@/components/new-post-drawer/new-post-drawer";
+import { useQG } from "@/hooks/useQG";
 
 const useMapHandlers = () => {
   const map = useMap(MAP_ID);
+  const { setQG } = useQG();
   const { openDrawer } = useDrawer();
   const { capabilities } = useUser();
-  const setMapCenter = useSetAtom(mapCenterAtom);
 
   if (empty(capabilities)) {
     return {};
@@ -20,12 +21,10 @@ const useMapHandlers = () => {
     onIdle: () => {
       if (!map) return;
       const center = map.getCenter();
-      const zoom = map.getZoom();
-      setMapCenter({
-        lat: center?.lat() ?? 0,
-        lng: center?.lng() ?? 0,
-        z: zoom ?? 0,
-      });
+      const lat = center?.lat() ?? 0;
+      const lng = center?.lng() ?? 0;
+      const z = map.getZoom() ?? 0;
+      setQG({ lat, lng, z });
     },
 
     onClick: (e) => {

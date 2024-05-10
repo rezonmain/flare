@@ -15,11 +15,13 @@ const useQG = () => {
   const setQG = useCallback(
     (geo: GeoZ) => {
       if (!isClient) return;
-      const pathName = window.location.pathname.split("/@")[0];
-      const parsedGeo = `${geo.lat},${geo.lng},${geo.z.toFixed(2)}z`;
-      const newPathName = `${pathName}/@${parsedGeo}`;
       const url = new URL(window.location.href);
-      url.pathname = newPathName;
+      const parsedGeo = `${geo.lat.toFixed(6)},${geo.lng.toFixed(
+        6
+      )},${geo.z.toFixed(2)}z`;
+      const searchParams = new URLSearchParams(url.search);
+      searchParams.set("at", parsedGeo);
+      url.search = searchParams.toString();
       window.history.pushState({}, "", url.toString());
     },
     [isClient]
@@ -27,8 +29,9 @@ const useQG = () => {
 
   const getQG = (): GeoZ => {
     if (!isClient) return { lat: 0, lng: 0, z: 0 };
-    const pathName = window.location.pathname.split("/@")[1];
-    const parsedGeo = pathName?.split(",") || ["0", "0", "0"];
+    const url = new URL(window.location.href);
+    const search = url.searchParams.get("at");
+    const parsedGeo = search?.split(",") || ["0", "0", "0"];
     return {
       lat: parseFloat(parsedGeo[0]),
       lng: parseFloat(parsedGeo[1]),

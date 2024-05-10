@@ -106,4 +106,11 @@ const getFlare = async (id: Flare["id"]): Promise<FlareWithTags> => {
   });
 };
 
-export { insertFlare, getFlares, getFlare };
+const deleteFlare = async (id: Flare["id"]) => {
+  await db.transaction(async (tx) => {
+    tx.execute(sql`DELETE FROM flare_tags WHERE flareId = ${id};`);
+    tx.execute(sql`DELETE FROM flares WHERE id = ${id};`);
+  });
+};
+
+export { insertFlare, getFlares, getFlare, deleteFlare };
