@@ -1,8 +1,6 @@
-import type { Flare } from "@/db/schema";
+import type { GeoZ } from "@/types/geo.types";
 import { atom } from "jotai";
 
-const drawerAtom = atom(false);
-const flareSheetOpenAtom = atom(false);
-const flareAtom = atom<Flare | null>(null);
+const mapCenterAtom = atom<GeoZ>({ lat: 0, lng: 0, z: 0 });
 
-export { drawerAtom, flareSheetOpenAtom, flareAtom };
+export { mapCenterAtom };
