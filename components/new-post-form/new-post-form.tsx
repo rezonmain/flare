@@ -2,8 +2,10 @@ import { useCallback } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
 import { Geo } from "@/types/geo.types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useDrawer } from "@/state";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FlareCategorySelect } from "@/components/flare-category-select/flare-category-select";
@@ -14,18 +16,14 @@ import {
 } from "@/constants/flare.constants";
 import { FlareTagsField } from "@/components/flare-tags-field/flare-tags-field";
 import { insertFlare } from "@/db/queries/flares.queries";
-import { useMutation } from "@tanstack/react-query";
-import { LoadingButton } from "../ui/loading-button";
+import { LoadingButton } from "@/components/ui/loading-button";
 
 type NewPostFormProps = {
   location: Geo;
-  onOpenChange: (state: boolean) => void;
 };
 
-const NewPostForm: React.FC<NewPostFormProps> = ({
-  location,
-  onOpenChange,
-}) => {
+const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
+  const { closeDrawer } = useDrawer();
   const { isPending, mutateAsync } = useMutation({ mutationFn: insertFlare });
   const form = useForm<z.infer<typeof FLARE_CREATE_SCHEMA>>({
     resolver: zodResolver(FLARE_CREATE_SCHEMA),
@@ -40,10 +38,10 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
   const handleSubmit = useCallback(
     async (values: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
       await mutateAsync(values);
-      onOpenChange(false);
+      closeDrawer();
       toast("Flare created successfully");
     },
-    [mutateAsync, onOpenChange]
+    [mutateAsync, closeDrawer]
   );
 
   const isButtonDisabled = !form.formState.isDirty || isPending;
