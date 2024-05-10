@@ -11,8 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { NewPostForm } from "@/components/new-post-form/new-post-form";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useDrawer } from "@/state";
 
 const NewPostDrawer: React.FC = () => {
+  const { closeDrawer } = useDrawer();
   const { latitude, longitude, loading } = useGeolocation();
   const router = useRouter();
 
@@ -65,7 +67,9 @@ const NewPostDrawer: React.FC = () => {
       </div>
       <DrawerFooter>
         <DrawerClose asChild>
-          <Button variant="outline">CANCEL</Button>
+          <Button onClick={closeDrawer} variant="outline">
+            CANCEL
+          </Button>
         </DrawerClose>
       </DrawerFooter>
     </>
