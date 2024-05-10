@@ -8,6 +8,7 @@ import type { MapCapabilities } from "@/constants/map.enum";
 import { MapView } from "@/components/map-view/map-view";
 import { useSetAtom } from "@/state";
 import { userAtom } from "@/state/user.state";
+import { useEffect } from "react";
 
 type MapProps = {
   defaultCenter: Geo;
@@ -23,7 +24,10 @@ const FlareMap: React.FC<MapProps> = ({
   capabilities,
 }) => {
   const setCapabilities = useSetAtom(userAtom);
-  setCapabilities((prev) => ({ ...prev, capabilities: capabilities ?? [] }));
+
+  useEffect(() => {
+    setCapabilities((prev) => ({ ...prev, capabilities: capabilities ?? [] }));
+  }, [capabilities, setCapabilities]);
 
   return (
     <div className="h-screen w-full">
