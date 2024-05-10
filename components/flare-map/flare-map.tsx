@@ -6,6 +6,8 @@ import { type Flare } from "@/db/schema";
 import { Markers } from "@/components/marker/markers";
 import type { MapCapabilities } from "@/constants/map.enum";
 import { MapView } from "@/components/map-view/map-view";
+import { useSetAtom } from "@/state";
+import { userAtom } from "@/state/user.state";
 
 type MapProps = {
   defaultCenter: Geo;
@@ -20,14 +22,13 @@ const FlareMap: React.FC<MapProps> = ({
   flares,
   capabilities,
 }) => {
+  const setCapabilities = useSetAtom(userAtom);
+  setCapabilities((prev) => ({ ...prev, capabilities: capabilities ?? [] }));
+
   return (
     <div className="h-screen w-full">
       <APIProvider apiKey={""}>
-        <MapView
-          defaultCenter={defaultCenter}
-          defaultZoom={defaultZoom}
-          capabilities={capabilities}
-        >
+        <MapView defaultCenter={defaultCenter} defaultZoom={defaultZoom}>
           <Markers flares={flares} />
         </MapView>
         <FlareMapBottom />

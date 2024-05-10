@@ -1,13 +1,15 @@
 "use client";
 import { empty } from "@rezonmain/utils-empty";
 import { useMap, type MapEventProps } from "@vis.gl/react-google-maps";
-import { mapCenterAtom, useSetAtom } from "@/state";
-import { MapCapabilities } from "@/constants/map.enum";
+import { mapCenterAtom, useSetAtom, useUser } from "@/state";
 import { MAP_ID } from "@/constants/map.constants";
+import { MapCapabilities } from "@/constants/map.enum";
 
-const useMapHandlers = (capabilities?: MapCapabilities[]) => {
+const useMapHandlers = () => {
   const map = useMap(MAP_ID);
+  const { capabilities } = useUser();
   const setMapCenter = useSetAtom(mapCenterAtom);
+
   if (empty(capabilities)) {
     return {};
   }
@@ -22,6 +24,12 @@ const useMapHandlers = (capabilities?: MapCapabilities[]) => {
         lng: center?.lng() ?? 0,
         z: zoom ?? 0,
       });
+    },
+
+    onClick: () => {
+      if (capabilities.includes(MapCapabilities.FLARE_ADD_ANY_WHERE)) {
+        alert("Add flare");
+      }
     },
   };
 
