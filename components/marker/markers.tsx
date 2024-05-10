@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import type { Flare } from "@/db/schema";
 import {
@@ -6,9 +7,8 @@ import {
 } from "@/constants/flare.constants";
 import { useClusterer } from "@/hooks/useClusterer";
 import { Icon } from "@/components/ui/icon";
-import { useSetAtom } from "jotai";
-import { flareAtom, flareSheetOpenAtom } from "@/state/map.state";
-import { useCallback } from "react";
+import { useSheet } from "@/state";
+import { FlareSheet } from "@/components/flare-sheet/flare-sheet";
 
 type MarkersProps = {
   flares: Flare[];
@@ -16,15 +16,17 @@ type MarkersProps = {
 
 const Markers: React.FC<MarkersProps> = ({ flares }) => {
   const setMarkerRef = useClusterer();
-  const setFlareSheetOpen = useSetAtom(flareSheetOpenAtom);
-  const setFlare = useSetAtom(flareAtom);
+  const { openSheet } = useSheet();
 
   const handleMarkerClick = useCallback(
     (flare: Flare) => {
-      setFlare(flare);
-      setFlareSheetOpen(true);
+      openSheet({
+        component: <FlareSheet flare={flare} />,
+        name: "flare-details",
+        side: "left",
+      });
     },
-    [setFlare, setFlareSheetOpen]
+    [openSheet]
   );
 
   return (

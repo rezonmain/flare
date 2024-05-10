@@ -46,7 +46,7 @@ const useSheet = () => {
   );
 
   const closeSheet = useCallback(() => {
-    setSheet((prev) => ({ ...prev, open: false }));
+    setSheet((prev) => ({ ...prev, open: false, side: null }));
   }, [setSheet]);
 
   return { openSheet, closeSheet };

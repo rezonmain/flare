@@ -15,7 +15,7 @@ type SheetAtomProps = {
   open: boolean;
   component: React.ReactNode;
   name: string;
-  side: "top" | "bottom" | "left" | "right" | null | undefined;
+  side?: "top" | "bottom" | "left" | "right" | null | undefined;
 };
 const sheetAtom = atom<SheetAtomProps>({
   open: false,
