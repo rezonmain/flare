@@ -9,7 +9,6 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FlareCategorySelect } from "@/components/flare-category-select/flare-category-select";
 import {
   FLARE_BODY_PLACEHOLDERS,
-  FLARE_CATEGORY_LABELS,
   FLARE_CREATE_INITIAL_VALUES,
   FLARE_CREATE_SCHEMA,
 } from "@/constants/flare.constants";
@@ -17,17 +16,16 @@ import { FlareTagsField } from "@/components/flare-tags-field/flare-tags-field";
 import { insertFlare } from "@/db/queries/flares.queries";
 import { useMutation } from "@tanstack/react-query";
 import { LoadingButton } from "../ui/loading-button";
-import { useDrawer, useSheet } from "@/state";
-import { Badge } from "@/components/ui/badge";
-import { ChevronDown } from "lucide-react";
-import type { FlareCategory } from "@/constants/flare.enums";
 
 type NewPostFormProps = {
   location: Geo;
+  onOpenChange: (state: boolean) => void;
 };
 
-const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
-  const { openSheet } = useSheet();
+const NewPostForm: React.FC<NewPostFormProps> = ({
+  location,
+  onOpenChange,
+}) => {
   const { isPending, mutateAsync } = useMutation({ mutationFn: insertFlare });
   const form = useForm<z.infer<typeof FLARE_CREATE_SCHEMA>>({
     resolver: zodResolver(FLARE_CREATE_SCHEMA),
@@ -39,31 +37,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
   });
   const category = form.watch("category");
 
-  const handleCategoryClick = useCallback(
-    (value: FlareCategory, onChange: () => void) =>
-      openSheet({
-        component: <FlareCategorySelect value={value} onChange={onChange} />,
-        name: "category-select",
-      }),
-    [openSheet]
-  );
-
-  const handleTagsClick = useCallback(
-    (value: string[], onChange: () => void) =>
-      openSheet({
-        component: <FlareTagsField value={value} onChange={onChange} />,
-        name: "category-select",
-      }),
-    [openSheet]
-  );
-
   const handleSubmit = useCallback(
     async (values: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
       await mutateAsync(values);
-      // closeDrawer();
+      onOpenChange(false);
       toast("Flare created successfully");
     },
-    [mutateAsync]
+    [mutateAsync, onOpenChange]
   );
 
   const isButtonDisabled = !form.formState.isDirty || isPending;
@@ -80,15 +60,10 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
             name="category"
             render={({ field }) => (
               <FormControl>
-                <Badge
-                  className="flex gap-4 items-center"
-                  onClick={() =>
-                    handleCategoryClick(field.value, field.onChange)
-                  }
-                >
-                  <p>Category: {FLARE_CATEGORY_LABELS[field.value]}</p>
-                  <ChevronDown size="24px" />
-                </Badge>
+                <FlareCategorySelect
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               </FormControl>
             )}
           />
@@ -97,15 +72,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
             name="tags"
             render={({ field }) => (
               <FormControl>
-                <Badge
-                  className="flex gap-4 items-center"
-                  onClick={() => handleTagsClick(field.value, field.onChange)}
-                >
-                  <p className="truncate max-w-20">
-                    Tags: {field.value.map((tag) => `#${tag}`).join(" ")}
-                  </p>
-                  <ChevronDown size="24px" />
-                </Badge>
+                <FlareTagsField value={field.value} onChange={field.onChange} />
               </FormControl>
             )}
           />

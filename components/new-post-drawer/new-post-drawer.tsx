@@ -63,7 +63,10 @@ const NewPostDrawer: React.FC = () => {
         </DrawerDescription>
       </DrawerHeader>
       <div className="px-4">
-        <NewPostForm location={{ lat: latitude, lng: longitude }} />
+        <NewPostForm
+          onOpenChange={closeDrawer}
+          location={{ lat: latitude, lng: longitude }}
+        />
       </div>
       <DrawerFooter>
         <DrawerClose asChild>
