@@ -1,6 +1,5 @@
 "use server";
 import { sql } from "drizzle-orm";
-import { z } from "zod";
 import { generateFlareId } from "@/helpers/flare.helpers";
 import { ISONow } from "@/helpers/time.helpers";
 import { makePoint } from "@/helpers/geo.helpers";
@@ -12,7 +11,22 @@ import { Flare, type Tag } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import type { FlareWithTags } from "@/types/flare.types";
 
-const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
+const insertFlare = async (formData: FormData) => {
+  const validationResult = FLARE_CREATE_SCHEMA.safeParse({
+    category: formData.get("category"),
+    body: formData.get("body"),
+    lat: Number(formData.get("lat")),
+    lng: Number(formData.get("lng")),
+    tags: formData.getAll("tags[]"),
+    image: formData.get("image"),
+  });
+
+  if (!validationResult.success) {
+    const errors = validationResult.error.flatten().fieldErrors;
+    return { errors };
+  }
+  const flare = validationResult.data;
+
   const newFlareId = generateFlareId();
   const createdAt = ISONow();
   const location = makePoint({ lat: flare.lat, lng: flare.lng });

@@ -1,13 +1,13 @@
 import { toast } from "sonner";
 import { Camera, ImagePlusIcon, XIcon } from "lucide-react";
 import { empty } from "@rezonmain/utils-empty";
-import { toBase64 } from "@/helpers/file.helpers";
+import { nil } from "@rezonmain/utils-nil";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 type ImagePickerProps = {
-  value: string | undefined;
-  onChange: (value: string | undefined) => void;
+  value: Blob | undefined;
+  onChange: (value: Blob | undefined) => void;
 };
 
 const ImagePicker: React.FC<ImagePickerProps> = ({ onChange, value }) => {
@@ -20,10 +20,10 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onChange, value }) => {
       toast.error("Image size should be less than 4MB");
       return;
     }
-    onChange(await toBase64(e.target.files[0]));
+    onChange(e.target.files[0]);
   };
 
-  if (empty(value)) {
+  if (nil(value)) {
     return (
       <div className="flex gap-4">
         <label className="p-1 items-center rounded-full text-xs font-semibold transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 cursor-pointer">
@@ -56,7 +56,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onChange, value }) => {
         width={300}
         height={800}
         className="rounded-md shadow-md"
-        src={value}
+        src={URL.createObjectURL(value)}
         alt="user selected image"
       />
     </div>

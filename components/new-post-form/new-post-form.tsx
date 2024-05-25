@@ -38,7 +38,17 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
 
   const handleSubmit = useCallback(
     async (values: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
-      await mutateAsync(values);
+      const formData = new FormData();
+      formData.append("body", values.body);
+      formData.append("category", values.category);
+      formData.append("lat", String(values.lat));
+      formData.append("lng", String(values.lng));
+      values.tags.forEach((tag) => formData.append("tags[]", tag));
+      if (values.image) {
+        formData.append("image", values.image);
+      }
+
+      await mutateAsync(formData);
       closeDrawer();
       toast("Flare created successfully");
     },
