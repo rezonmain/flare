@@ -11,6 +11,7 @@ import { db } from "@/db";
 import { Flare, type Tag } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import type { FlareWithTags } from "@/types/flare.types";
+import dayjs from "dayjs";
 
 const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
   const newFlareId = generateFlareId();
@@ -73,9 +74,11 @@ const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
 };
 
 const getFlares = async () => {
+  const dayAgo = dayjs().subtract(1, "day").toISOString();
   return results<Flare>(() =>
     db.execute(
-      sql`SELECT id, category, body, createdAt, updateAt, ST_X(location) AS 'lat', ST_Y(location) AS 'lng' FROM flares;`
+      sql`SELECT id, category, body, createdAt, updateAt, ST_X(location) AS 'lat', ST_Y(location) AS 'lng' FROM flares 
+          WHERE createdAt > ${dayAgo};`
     )
   );
 };
