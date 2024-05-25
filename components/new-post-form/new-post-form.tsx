@@ -17,6 +17,7 @@ import {
 import { FlareTagsField } from "@/components/flare-tags-field/flare-tags-field";
 import { insertFlare } from "@/db/queries/flares.queries";
 import { LoadingButton } from "@/components/ui/loading-button";
+import { ImagePicker } from "@/components/image-picker/image-picker";
 
 type NewPostFormProps = {
   location: Geo;
@@ -52,7 +53,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="flex flex-col gap-8"
       >
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           <FormField
             control={form.control}
             name="category"
@@ -75,21 +76,33 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="body"
-          render={({ field }) => (
-            <FormItem>
+        <div className="flex flex-col gap-3">
+          <FormField
+            control={form.control}
+            name="body"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder={FLARE_BODY_PLACEHOLDERS[category]}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
               <FormControl>
-                <Textarea
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder={FLARE_BODY_PLACEHOLDERS[category]}
-                />
+                <ImagePicker value={field.value} onChange={field.onChange} />
               </FormControl>
-            </FormItem>
-          )}
-        />
+            )}
+          />
+        </div>
+
         <LoadingButton loading={isPending} disabled={isButtonDisabled}>
           POST
         </LoadingButton>
