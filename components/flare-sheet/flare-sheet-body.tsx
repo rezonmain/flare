@@ -58,6 +58,16 @@ const FlareSheetBody: React.FC<FlareSheetBodyProps> = ({ flareId }) => {
             </div>
           )}
           <p className="pb-2">{data?.body}</p>
+          {data?.img ? (
+            <div className="py-4 flex items-center justify-center">
+              <Image
+                height={256}
+                width={256}
+                src={data.img.url}
+                alt="Flare image"
+              />
+            </div>
+          ) : null}
           <FlareSheetActions flareId={flareId} />
         </CardContent>
       </Card>

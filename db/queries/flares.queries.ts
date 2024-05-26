@@ -8,7 +8,7 @@ import { result, results } from "@/helpers/sql.helpers";
 import { nil } from "@rezonmain/utils-nil";
 import { db } from "@/db";
 import { utapi } from "@/server/uploadthing";
-import { Flare, type Tag } from "@/db/schema";
+import { Flare, Media, type Tag } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import type { FlareWithTags } from "@/types/flare.types";
 
@@ -142,8 +142,11 @@ const getFlare = async (id: Flare["id"]): Promise<FlareWithTags> => {
             WHERE id = ${id};`
         )
       ),
+      result<Media>(() =>
+        tx.execute(sql`SELECT url FROM medias WHERE flareId = ${id};`)
+      ),
     ]);
-    return { ...res[1], tags: res[0] };
+    return { ...res[1], tags: res[0], img: res[2] };
   });
 };
 
