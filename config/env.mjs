@@ -18,6 +18,8 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: z.string().min(1),
     NEXTAUTH_SECRET: z.string().min(1),
     SUPER_USER_EMAIL: z.string().email(),
+    UPLOADTHING_SECRET: z.string().min(1),
+    UPLOADTHING_APP_ID: z.string().min(1),
   },
   /*
    * Environment variables available on the client (and server).
@@ -45,5 +47,7 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     SUPER_USER_EMAIL: process.env.SUPER_USER_EMAIL,
+    UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
+    UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
   },
 });

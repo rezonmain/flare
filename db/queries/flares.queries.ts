@@ -1,6 +1,5 @@
 "use server";
-import { sql } from "drizzle-orm";
-import { z } from "zod";
+import { sql, type SQL } from "drizzle-orm";
 import { generateFlareId } from "@/helpers/flare.helpers";
 import { ISONow } from "@/helpers/time.helpers";
 import { makePoint } from "@/helpers/geo.helpers";
@@ -8,14 +7,51 @@ import { FLARE_CREATE_SCHEMA } from "@/constants/flare.constants";
 import { result, results } from "@/helpers/sql.helpers";
 import { nil } from "@rezonmain/utils-nil";
 import { db } from "@/db";
-import { Flare, type Tag } from "@/db/schema";
+import { utapi } from "@/server/uploadthing";
+import { Flare, Media, type Tag } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import type { FlareWithTags } from "@/types/flare.types";
 
-const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
+const insertFlare = async (formData: FormData) => {
+  const validationResult = FLARE_CREATE_SCHEMA.safeParse({
+    category: formData.get("category"),
+    body: formData.get("body"),
+    lat: Number(formData.get("lat")),
+    lng: Number(formData.get("lng")),
+    tags: formData.getAll("tags[]"),
+    image: formData.get("image"),
+  });
+
+  if (!validationResult.success) {
+    const errors = validationResult.error.flatten().fieldErrors;
+    return { errors };
+  }
+  const flare = validationResult.data;
+
   const newFlareId = generateFlareId();
   const createdAt = ISONow();
   const location = makePoint({ lat: flare.lat, lng: flare.lng });
+
+  let mediasQuery: SQL<unknown> | null = null;
+  if (!nil(flare.image)) {
+    if (flare.image.size > 4194304) {
+      return { errors: { image: "Image size should be less than 4MB" } };
+    }
+
+    const imageUploadResponse = await utapi.uploadFiles(
+      new File([flare.image], `${newFlareId}`)
+    );
+
+    if (!nil(imageUploadResponse.error)) {
+      return { errors: { image: "Image upload failed" } };
+    }
+
+    mediasQuery = sql`INSERT INTO medias ( type, url, createdAt, flareId) VALUES ( 
+      'IMAGE', 
+      ${imageUploadResponse.data!.url}, 
+      ${createdAt}, 
+      ${newFlareId});`;
+  }
 
   const flareQuery = sql`INSERT INTO flares (id, category, body, createdAt, location) VALUES (
     ${newFlareId},
@@ -62,6 +98,11 @@ const insertFlare = async (flare: z.infer<typeof FLARE_CREATE_SCHEMA>) => {
     // Add the new flare
     await tx.execute(flareQuery);
 
+    if (!nil(mediasQuery)) {
+      // Add the new media
+      await tx.execute(mediasQuery);
+    }
+
     // Relate the new flare with the request tags
     flareTagsIds.forEach(async (tagId) => {
       await tx.execute(
@@ -101,8 +142,11 @@ const getFlare = async (id: Flare["id"]): Promise<FlareWithTags> => {
             WHERE id = ${id};`
         )
       ),
+      result<Media>(() =>
+        tx.execute(sql`SELECT url FROM medias WHERE flareId = ${id};`)
+      ),
     ]);
-    return { ...res[1], tags: res[0] };
+    return { ...res[1], tags: res[0], img: res[2] };
   });
 };
 
