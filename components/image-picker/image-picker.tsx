@@ -6,8 +6,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 type ImagePickerProps = {
-  value: Blob | undefined;
-  onChange: (value: Blob | undefined) => void;
+  value: Blob | undefined | null;
+  onChange: (value: Blob | null) => void;
 };
 
 const ImagePicker: React.FC<ImagePickerProps> = ({ onChange, value }) => {
@@ -48,7 +48,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onChange, value }) => {
         variant="outline"
         size="icon"
         className="absolute -top-2 -right-2 rounded-full h-8 w-8"
-        onClick={() => onChange(undefined)}
+        onClick={() => onChange(null)}
       >
         <XIcon size={20} />
       </Button>

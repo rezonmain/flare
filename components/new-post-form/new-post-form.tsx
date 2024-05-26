@@ -3,6 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
+import { nil } from "@rezonmain/utils-nil";
 import { Geo } from "@/types/geo.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDrawer } from "@/state";
@@ -48,11 +49,15 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ location }) => {
         formData.append("image", values.image);
       }
 
-      await mutateAsync(formData);
+      const result = await mutateAsync(formData);
+      if (!nil(result?.errors)) {
+        toast.error("Something went wrong while creating the flare");
+        return;
+      }
       closeDrawer();
-      toast("Flare created successfully");
+      toast.success("Flare created successfully");
     },
-    [mutateAsync, closeDrawer]
+    [closeDrawer, mutateAsync]
   );
 
   const isButtonDisabled = !form.formState.isDirty || isPending;
