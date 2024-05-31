@@ -11,7 +11,9 @@ const TheDrawer: React.FC = () => {
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
-      <DrawerContent>{component}</DrawerContent>
+      <DrawerContent>
+        <div className="max-h-svh overflow-y-auto">{component}</div>
+      </DrawerContent>
     </Drawer>
   );
 };
