@@ -9,6 +9,7 @@ import type { MapCapabilities } from "@/constants/map.enum";
 import { MapView } from "@/components/map-view/map-view";
 import { useSetAtom } from "@/state";
 import { userAtom } from "@/state/user.state";
+import { env } from "@/config/env.mjs";
 
 type MapProps = {
   defaultCenter: Geo;
@@ -31,7 +32,7 @@ const FlareMap: React.FC<MapProps> = ({
 
   return (
     <div className="h-screen w-full">
-      <APIProvider apiKey={""}>
+      <APIProvider apiKey={env.NEXT_PUBLIC_GOOGLE_API_KEY}>
         <MapView defaultCenter={defaultCenter} defaultZoom={defaultZoom}>
           <Markers flares={flares} />
         </MapView>
