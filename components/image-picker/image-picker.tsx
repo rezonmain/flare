@@ -4,6 +4,7 @@ import { empty } from "@rezonmain/utils-empty";
 import { nil } from "@rezonmain/utils-nil";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { FLARE_IMAGE_MAX_SIZE_BYTES } from "@/constants/flare.constants";
 
 type ImagePickerProps = {
   value: Blob | undefined | null;
@@ -16,8 +17,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ onChange, value }) => {
       return;
     }
 
-    if (e.target.files[0].size > 4194304) {
-      toast.error("Image size should be less than 4MB");
+    if (e.target.files[0].size > FLARE_IMAGE_MAX_SIZE_BYTES * 2) {
+      toast.error("Image size should be less than 8MB");
       return;
     }
     onChange(e.target.files[0]);

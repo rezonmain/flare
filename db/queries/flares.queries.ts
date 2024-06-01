@@ -3,7 +3,10 @@ import { sql, type SQL } from "drizzle-orm";
 import { generateFlareId } from "@/helpers/flare.helpers";
 import { ISONow } from "@/helpers/time.helpers";
 import { makePoint } from "@/helpers/geo.helpers";
-import { FLARE_CREATE_SCHEMA } from "@/constants/flare.constants";
+import {
+  FLARE_CREATE_SCHEMA,
+  FLARE_IMAGE_MAX_SIZE_BYTES,
+} from "@/constants/flare.constants";
 import { result, results } from "@/helpers/sql.helpers";
 import { nil } from "@rezonmain/utils-nil";
 import { db } from "@/db";
@@ -34,8 +37,8 @@ const insertFlare = async (formData: FormData) => {
 
   let mediasQuery: SQL<unknown> | null = null;
   if (!nil(flare.image)) {
-    if (flare.image.size > 4194304) {
-      return { errors: { image: "Image size should be less than 4MB" } };
+    if (flare.image.size > FLARE_IMAGE_MAX_SIZE_BYTES * 2) {
+      return { errors: { image: "Image size should be less than 8MB" } };
     }
 
     const imageUploadResponse = await utapi.uploadFiles(
