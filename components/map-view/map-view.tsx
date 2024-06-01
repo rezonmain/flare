@@ -23,6 +23,7 @@ const MapView: React.FC<MapViewProps> = ({
       disableDefaultUI
       defaultCenter={defaultCenter}
       defaultZoom={defaultZoom}
+      gestureHandling="greedy"
       {...handlers}
     >
       {children}
