@@ -37,8 +37,8 @@ const insertFlare = async (formData: FormData) => {
 
   let mediasQuery: SQL<unknown> | null = null;
   if (!nil(flare.image)) {
-    if (flare.image.size > FLARE_IMAGE_MAX_SIZE_BYTES * 2) {
-      return { errors: { image: "Image size should be less than 8MB" } };
+    if (flare.image.size > FLARE_IMAGE_MAX_SIZE_BYTES) {
+      return { errors: { image: "Image size should be less than 4MB" } };
     }
 
     const imageUploadResponse = await utapi.uploadFiles(
