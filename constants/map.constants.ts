@@ -1,7 +1,8 @@
 import { MapCapabilities } from "@/constants/map.enum";
 
 const _MAP_ID = "8e0a97af9386fef";
-const MAP_ID = "739af084373f96fe";
+const __MAP_ID = "739af084373f96fe";
+const MAP_ID = "83b073ed2b58c050";
 
 const BASE_CAPABILITIES = [
   MapCapabilities.FLARE_ADD,
